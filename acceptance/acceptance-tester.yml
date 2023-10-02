@@ -1,0 +1,20 @@
+version: '3.5'
+networks:
+  default:
+    name: $ACCEPTANCE_NETWORK
+
+services:
+  acceptance-tester:
+    image: golang:1.15
+    restart: 'no'
+    environment:
+      - ACCEPTANCE_NETWORK=${ACCEPTANCE_NETWORK}
+      - TESTED_IMAGE=${TESTED_IMAGE}
+    working_dir: /acceptance
+    volumes:
+      - ./acceptance:/acceptance
+      - ${GOPATH:-~/go}/pkg:/go/pkg
+      - ${NETRC_FILE:-~/.netrc}:/root/.netrc
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./scripts/utils/wait-for:/wait-for
+    command: bash -c "/wait-for mysql:3306 -t 15 && go test -parallel 1 -v ."

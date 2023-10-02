@@ -1,0 +1,27 @@
+version: '3.5'
+networks:
+  default:
+    name: $ACCEPTANCE_NETWORK
+
+services:
+  devs-crud:
+    build: .
+    ports:
+    - "8000:8000"
+    environment:
+      DB_URL: "root:pass@tcp(mysql:3306)/test_devs_crud"
+    depends_on:
+      - mysql
+    networks:
+      - default
+
+  mysql:
+    build: db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d/
+    networks:
+      - default

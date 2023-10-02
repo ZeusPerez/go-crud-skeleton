@@ -1,5 +1,7 @@
 # Skeleton for a GO CRUD app with MySQL
 
+This is a project that I use as example when I have to make a CRUD API for a Code Challenge, a PoC, scafolding, etc.
+
 ## API usage
 
 ```bash
@@ -12,4 +14,3 @@ curl -d '{"email":"dev@test.com", "expertise":2, "languages": ["go","ruby"]}' -H
 # Delete dev
 curl -X DELETE http://localhost:8000/delete\?email\=dev@test.com
 ```
-# go-crud-template
